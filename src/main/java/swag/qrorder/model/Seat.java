@@ -6,4 +6,5 @@ import lombok.Data;
 public class Seat {
     String seatId;
     String restaurantId;
+    String qrKey;
 }
