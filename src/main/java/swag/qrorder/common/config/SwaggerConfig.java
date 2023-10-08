@@ -2,6 +2,7 @@ package swag.qrorder.common.config;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
+import org.springdoc.core.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -13,5 +14,13 @@ public class SwaggerConfig {
                 .info(new Info()
                         .title("project QROrder API 명세서")
                         .description("TEST 및 API 명세서로 사용함."));
+    }
+
+    @Bean
+    public GroupedOpenApi restaurantAPI(){
+        return GroupedOpenApi.builder()
+                .group("restaurants")
+                .pathsToMatch("/qrorder/restaurants/**")
+                .build();
     }
 }
