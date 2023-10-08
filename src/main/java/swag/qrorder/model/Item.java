@@ -1,8 +1,6 @@
 package swag.qrorder.model;
 
 import lombok.Data;
-import org.springframework.web.multipart.MultipartFile;
-
 import java.util.List;
 
 @Data
@@ -11,7 +9,7 @@ public class Item {
     String itemName;
     int itemPrice;
     String itemDescription;
-    MultipartFile itemImage;
+    byte[] itemImage;
     boolean itemStatus;
     String restaurantId;
     int amount;

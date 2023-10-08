@@ -13,7 +13,6 @@ import java.util.List;
 @RestController
 public class RestaurantController {
     private final RestaurantServiceImpl restaurantService;
-
     @GetMapping("/{bossId}")
     public ResponseEntity<?> findRestaurants(@PathVariable String bossId){
         List<Restaurant> restaurants = restaurantService.findRestaurants(bossId);
@@ -22,21 +21,21 @@ public class RestaurantController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("do not register restaurants");
     }
     @PostMapping("")
-    ResponseEntity<?> addRestaurant(@RequestBody Restaurant restaurant){
+    public ResponseEntity<?> addRestaurant(@RequestBody Restaurant restaurant){
         boolean flag = restaurantService.addRestaurant(restaurant);
         if(flag) return ResponseEntity.status(HttpStatus.OK).body("success!");
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("fail!");
     }
     @PutMapping("")
-    ResponseEntity<?> updateRestaurant(@RequestBody Restaurant restaurant){
+    public ResponseEntity<?> updateRestaurant(@RequestBody Restaurant restaurant){
         boolean flag = restaurantService.updateRestaurant(restaurant);
         if(flag) return ResponseEntity.status(HttpStatus.OK).body("success!");
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("fail!");
     }
     @DeleteMapping("")
-    ResponseEntity<?> deleteRestaurant(@RequestBody String restaurantId){
+    public ResponseEntity<?> deleteRestaurant(@RequestBody String restaurantId){
         boolean flag = restaurantService.deleteRestaurant(restaurantId);
         if(flag) return ResponseEntity.status(HttpStatus.OK).body("success!");
 
