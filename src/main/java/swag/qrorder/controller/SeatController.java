@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import swag.qrorder.model.Seat;
 import swag.qrorder.serviceImpl.SeatServiceImpl;
 
-import javax.servlet.http.HttpServletRequest;
-
 @Slf4j
 @RequestMapping("/qrorder/seats")
 @RequiredArgsConstructor
