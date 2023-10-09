@@ -20,10 +20,21 @@
         </collection>
     </resultMap>
 
-    <select id="findRestaurantByQr" parameterType="string" resultMap="defaultRestaurant">
+    <resultMap id="RestaurantItems" type="Restaurant">
+        <result property="restaurantName" column="restaurant_name"/>
+        <collection property="items" ofType="Item">
+            <id property="itemId" column="item_id"/>
+            <result property="itemName" column="item_name"/>
+            <result property="itemDescription" column="item_description"/>
+            <result property="itemImage" column="item_image"/>
+            <result property="itemStatus" column="item_status"/>
+        </collection>
+    </resultMap>
+
+    <select id="findRestaurantByQr" parameterType="string" resultMap="RestaurantItems">
         SELECT r.restaurant_name,i.*
         FROM restaurant r INNER JOIN seat s ON r.restaurant_id = s.restaurant_id
-        LEFT JOIN item i ON r.restaurant_id = i.restaurant_id
+        INNER JOIN item i ON r.restaurant_id = i.restaurant_id
         WHERE s.qr_key = #{qrKey}
     </select>
 
