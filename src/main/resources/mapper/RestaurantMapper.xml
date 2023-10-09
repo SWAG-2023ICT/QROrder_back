@@ -28,13 +28,34 @@
             <result property="itemDescription" column="item_description"/>
             <result property="itemImage" column="item_image"/>
             <result property="itemStatus" column="item_status"/>
+            <collection property="options" ofType="Option">
+                <id property="optionId" column="option_id"/>
+                <result property="optionType" column="option_type"/>
+                <result property="optionName" column="option_name"/>
+                <result property="optionDescription" column="option_description"/>
+                <collection property="optionValues" ofType="OptionValue">
+                    <id property="optionValueId" column="option_value_id"/>
+                    <result property="name" column="name"/>
+                    <result property="price" column="price"/>
+                </collection>
+            </collection>
+            <collection property="categories" ofType="Category">
+                <id property="categoryId" column="category_id"/>
+                <result property="categoryName" column="category_name"/>
+                <result property="categoryDescription" column="category_description"/>
+            </collection>
         </collection>
     </resultMap>
 
     <select id="findRestaurantByQr" parameterType="string" resultMap="RestaurantItems">
-        SELECT r.restaurant_name,i.*
+        SELECT r.restaurant_name,i.*,c.*,o.option_id,o.option_type,o.option_name,o.option_description,
+               ov.option_value_id,ov.name,ov.price
         FROM restaurant r INNER JOIN seat s ON r.restaurant_id = s.restaurant_id
         INNER JOIN item i ON r.restaurant_id = i.restaurant_id
+        INNER JOIN item_detail id ON i.item_id = id.item_id
+        INNER JOIN category c ON id.category_id = c.category_id
+        LEFT JOIN `option` o ON i.item_id = o.item_id
+        LEFT JOIN option_value ov ON o.option_id = ov.option_id
         WHERE s.qr_key = #{qrKey}
     </select>
 
