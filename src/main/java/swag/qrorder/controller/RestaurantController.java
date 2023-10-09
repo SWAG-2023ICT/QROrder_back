@@ -13,12 +13,21 @@ import java.util.List;
 @RestController
 public class RestaurantController {
     private final RestaurantServiceImpl restaurantService;
+
+    @GetMapping("/menus/{qrKey}")
+    public ResponseEntity<?> findRestaurantByQr(@PathVariable String qrKey){
+        Restaurant restaurant = restaurantService.findRestaurantByQr(qrKey);
+        if(restaurant.getItems().isEmpty()) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("fail!");
+
+        return ResponseEntity.status(HttpStatus.OK).body(restaurant);
+    }
+
     @GetMapping("/{bossId}")
     public ResponseEntity<?> findRestaurants(@PathVariable String bossId){
         List<Restaurant> restaurants = restaurantService.findRestaurants(bossId);
-        if(!restaurants.isEmpty()) return ResponseEntity.status(HttpStatus.OK).body(restaurants);
+        if(restaurants.isEmpty()) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("fail!");
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("do not register restaurants");
+        return ResponseEntity.status(HttpStatus.OK).body(restaurants);
     }
     @PostMapping("")
     public ResponseEntity<?> addRestaurant(@RequestBody Restaurant restaurant){

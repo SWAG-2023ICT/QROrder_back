@@ -8,6 +8,8 @@
         <result property="restaurantPhoneNumber" column="restaurant_phone_number"/>
         <collection property="seats" ofType="Seat">
             <id property="seatId" column="seat_id"/>
+            <id property="seatName" column="seat_name"/>
+            <id property="qrKey" column="qr_key"/>
         </collection>
         <collection property="items" ofType="Item">
             <id property="itemId" column="item_id"/>
@@ -17,6 +19,13 @@
             <result property="itemStatus" column="item_status"/>
         </collection>
     </resultMap>
+
+    <select id="findRestaurantByQr" parameterType="string" resultMap="defaultRestaurant">
+        SELECT r.restaurant_name,i.*
+        FROM restaurant r INNER JOIN seat s ON r.restaurant_id = s.restaurant_id
+        LEFT JOIN item i ON r.restaurant_id = i.restaurant_id
+        WHERE s.qr_key = #{qrKey}
+    </select>
 
     <select id="findRestaurants" parameterType="string" resultMap="defaultRestaurant">
         SELECT *
