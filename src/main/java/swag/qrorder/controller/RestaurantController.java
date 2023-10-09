@@ -14,14 +14,6 @@ import java.util.List;
 public class RestaurantController {
     private final RestaurantServiceImpl restaurantService;
 
-    @GetMapping("/menus/{qrKey}")
-    public ResponseEntity<?> findRestaurantByQr(@PathVariable String qrKey){
-        Restaurant restaurant = restaurantService.findRestaurantByQr(qrKey);
-        if(restaurant.getItems().isEmpty()) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("fail!");
-
-        return ResponseEntity.status(HttpStatus.OK).body(restaurant);
-    }
-
     @GetMapping("/{bossId}")
     public ResponseEntity<?> findRestaurants(@PathVariable String bossId){
         List<Restaurant> restaurants = restaurantService.findRestaurants(bossId);

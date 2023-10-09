@@ -36,4 +36,12 @@ public class SwaggerConfig {
                 .pathsToMatch("/qrorder/seats/**")
                 .build();
     }
+
+    @Bean
+    public GroupedOpenApi userAPI(){
+        return GroupedOpenApi.builder()
+                .group("menus")
+                .pathsToMatch("/qrorder/menus/**")
+                .build();
+    }
 }

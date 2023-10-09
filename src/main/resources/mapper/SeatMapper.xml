@@ -2,6 +2,12 @@
 <!DOCTYPE mapper PUBLIC "//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="swag.qrorder.mapper.SeatMapper">
+    <select id="getSeatId" parameterType="string">
+        SELECT seat_id
+        FROM seat
+        WHERE qr_key = #{qrKey}
+    </select>
+    
     <insert id="addSeat" parameterType="List" useGeneratedKeys="true" keyProperty="seatId">
         INSERT INTO seat (seat_id, seat_name, qr_key, restaurant_id)
         VALUES

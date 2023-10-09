@@ -13,12 +13,6 @@ import java.util.List;
 @Service
 public class RestaurantServiceImpl implements RestaurantService {
     private final RestaurantMapper restaurantMapper;
-
-    @Override
-    public Restaurant findRestaurantByQr(String qrKey) {
-        return restaurantMapper.findRestaurantByQr(qrKey);
-    }
-
     @Override
     public List<Restaurant> findRestaurants(String bossId) {
         return restaurantMapper.findRestaurants(bossId);
