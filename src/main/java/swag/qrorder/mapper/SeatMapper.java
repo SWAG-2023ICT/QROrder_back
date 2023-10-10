@@ -10,5 +10,5 @@ public interface SeatMapper {
     Seat findSeatByQr(String qrKey);
     Integer addSeat(List<Seat> seats);
     Integer updateSeat(Seat seat);
-    Integer deleteSeat(String seatId);
+    Integer deleteSeat(List<Integer> seatIds);
 }

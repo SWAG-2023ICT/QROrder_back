@@ -25,8 +25,12 @@
         WHERE seat_id = #{seatId};
     </update>
 
-    <delete id="deleteSeat" parameterType="String">
+    <delete id="deleteSeat" parameterType="List">
         DELETE FROM seat
-        WHERE seat_id = #{seatId}
+        WHERE seat_id IN (
+        <foreach collection="seatIds" item="seat" separator=",">
+            #{seat}
+        </foreach>
+        )
     </delete>
 </mapper>

@@ -3,6 +3,7 @@ package swag.qrorder.serviceImpl;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
+import swag.qrorder.common.util.RandomCodeUtil;
 import swag.qrorder.mapper.RestaurantMapper;
 import swag.qrorder.mapper.SeatMapper;
 import swag.qrorder.mapper.SessionMapper;
@@ -18,6 +19,7 @@ public class UserServiceImpl implements UserService {
     private final RestaurantMapper restaurantMapper;
     private final SeatMapper seatMapper;
     private final SessionMapper sessionMapper;
+    private final RandomCodeUtil randomCodeUtil;
     @Override
     public Restaurant findRestaurantByQr(String qrKey) {
         return restaurantMapper.findRestaurantByQr(qrKey);
@@ -38,7 +40,7 @@ public class UserServiceImpl implements UserService {
         Session session = sessionMapper.findSession(restaurantId);
         if(session == null){
             session = Session.builder()
-                    .sessionId(createRandomString())
+                    .sessionId(randomCodeUtil.createRandomCode(64))
                     .restaurantId(restaurantId)
                     .build();
             sessionMapper.addSession(session);
@@ -48,7 +50,5 @@ public class UserServiceImpl implements UserService {
     private Seat getSeat(String qrKey){
         return seatMapper.findSeatByQr(qrKey);
     }
-    private String createRandomString(){
-        return RandomStringUtils.random(32,true,true);
-    }
+
 }
