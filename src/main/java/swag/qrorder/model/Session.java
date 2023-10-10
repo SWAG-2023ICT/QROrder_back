@@ -1,10 +1,16 @@
 package swag.qrorder.model;
 
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.*;
 
 import java.util.Date;
 
-@Data
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 public class Session {
     String sessionId;
     Date creationDtm;

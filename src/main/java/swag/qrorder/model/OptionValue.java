@@ -1,10 +1,14 @@
 package swag.qrorder.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.Data;
+import lombok.*;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 public class OptionValue {
     int optionValueId;
     String name;

@@ -7,7 +7,7 @@ import java.util.List;
 
 @Mapper
 public interface SeatMapper {
-    Integer getSeatId(String qrKey);
+    Seat findSeatByQr(String qrKey);
     Integer addSeat(List<Seat> seats);
     Integer updateSeat(Seat seat);
     Integer deleteSeat(String seatId);

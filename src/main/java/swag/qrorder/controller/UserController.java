@@ -25,9 +25,4 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(restaurant);
     }
 
-    @PostMapping("/{qrKey}")
-    public ResponseEntity<?> addOrder(@PathVariable String qrKey, @RequestBody List<Item> items){
-        log.info("fuck : {}",items.toString());
-        return null;
-    }
 }
