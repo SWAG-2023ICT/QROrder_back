@@ -2,12 +2,36 @@
 <!DOCTYPE mapper PUBLIC "//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="swag.qrorder.mapper.ItemMapper">
+
+    <select id="findAllItems" parameterType="int" resultType="Item">
+        SELECT *
+        FROM item
+        <if test="itemId != null">
+        WHERE item_id = #{itemId}
+        </if>
+    </select>
+
     <insert id="addItems" parameterType="List" useGeneratedKeys="true" keyProperty="itemId">
         INSERT INTO item (item_name, item_price, item_description, item_image, item_status, restaurant_id)
         VALUES
         <foreach collection="items" item="item" separator=",">
-            (#{item.itemId},#{item.itemName},#{item.itemPrice},#{item.itemDescription},
+            (#{item.itemName},#{item.itemPrice},#{item.itemDescription},
                 #{item.itemImage},#{item.itemStatus},#{item.restaurantId})
         </foreach>
     </insert>
+
+    <update id="updateItem" parameterType="Item">
+        UPDATE item
+        SET item_name = #{itemName},
+            item_price = #{itemPrice},
+            item_description = #{itemDescription},
+            item_image = #{itemImage}
+        WHERE item_id = #{itemId}
+    </update>
+
+    <update id="updateItemStatus" parameterType="Item">
+        UPDATE item
+        SET item_status = #{itemStatus}
+        WHERE item_id = #{itemId}
+    </update>
 </mapper>

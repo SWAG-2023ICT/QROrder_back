@@ -7,5 +7,8 @@ import java.util.List;
 
 @Mapper
 public interface ItemMapper {
-    Integer addItem(List<Item> items);
+    List<Item> findAllItems(int itemId);
+    Integer addItems(List<Item> items);
+    Integer updateItem(Item item);
+    Integer updateItemStatus(Item item);
 }

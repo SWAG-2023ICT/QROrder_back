@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import swag.qrorder.model.Seat;
-import swag.qrorder.serviceImpl.SeatServiceImpl;
+import swag.qrorder.service.SeatService;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 public class SeatController {
-    private final SeatServiceImpl seatService;
+    private final SeatService seatService;
     @PostMapping("")
     public ResponseEntity<?> addSeat(@RequestBody int count){
         String restaurantId = "111-22-33333"; // 헤더에서 id 가져오기

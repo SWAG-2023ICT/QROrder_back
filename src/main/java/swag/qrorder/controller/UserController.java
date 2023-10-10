@@ -5,18 +5,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import swag.qrorder.model.Item;
 import swag.qrorder.model.Restaurant;
-import swag.qrorder.serviceImpl.UserServiceImpl;
-
-import java.util.List;
+import swag.qrorder.service.UserService;
 
 @Slf4j
 @RequestMapping("/qrorder/menus")
 @RequiredArgsConstructor
 @RestController
 public class UserController {
-    private final UserServiceImpl userService;
+    private final UserService userService;
     @GetMapping("/{qrKey}")
     public ResponseEntity<?> findRestaurantByQr(@PathVariable String qrKey){
         Restaurant restaurant = userService.findRestaurantByQr(qrKey);

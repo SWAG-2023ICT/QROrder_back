@@ -5,14 +5,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import swag.qrorder.model.Restaurant;
-import swag.qrorder.serviceImpl.RestaurantServiceImpl;
+import swag.qrorder.service.RestaurantService;
 
 import java.util.List;
 @RequestMapping("/qrorder/restaurants")
 @RequiredArgsConstructor
 @RestController
 public class RestaurantController {
-    private final RestaurantServiceImpl restaurantService;
+    private final RestaurantService restaurantService;
 
     @GetMapping("/{bossId}")
     public ResponseEntity<?> findRestaurants(@PathVariable String bossId){
