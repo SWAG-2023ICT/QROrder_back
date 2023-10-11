@@ -34,4 +34,9 @@
         SET item_status = #{itemStatus}
         WHERE item_id = #{itemId}
     </update>
+
+    <delete id="deleteItem" parameterType="int">
+        DELETE FROM item
+        WHERE item_id = #{itemId}
+    </delete>
 </mapper>

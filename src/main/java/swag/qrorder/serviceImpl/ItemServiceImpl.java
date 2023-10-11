@@ -33,4 +33,9 @@ public class ItemServiceImpl implements ItemService {
         Integer result = itemMapper.updateItemStatus(item);
         return result > 0;
     }
+    @Override
+    public boolean deleteItem(int itemId) {
+        Integer result = itemMapper.deleteItem(itemId);
+        return result > 0;
+    }
 }

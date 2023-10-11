@@ -35,4 +35,12 @@ public class ItemController {
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("fail!");
     }
+
+    @DeleteMapping("/{itemId}")
+    public ResponseEntity<?> deleteItem(@PathVariable int itemId){
+        boolean flag = itemService.deleteItem(itemId);
+        if(flag) return ResponseEntity.status(HttpStatus.OK).body("success!");
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("fail!");
+    }
 }

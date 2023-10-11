@@ -11,4 +11,5 @@ public interface ItemMapper {
     Integer addItems(List<Item> items);
     Integer updateItem(Item item);
     Integer updateItemStatus(Item item);
+    Integer deleteItem(int itemId);
 }
