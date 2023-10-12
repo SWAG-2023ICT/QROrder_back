@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="swag.qrorder.mapper.SeatMapper">
+
+    <select id="findSeatByQr" parameterType="string" resultType="Seat">
+        SELECT *
+        FROM seat
+        WHERE qr_key = #{qrKey}
+    </select>
+
+    <insert id="addSeat" parameterType="List" useGeneratedKeys="true" keyProperty="seatId">
+        INSERT INTO seat (seat_id, seat_name, qr_key, restaurant_id)
+        VALUES
+        <foreach collection="seats" item="seat" separator=",">
+            (#{seat.seatId},#{seat.seatName},#{seat.qrKey},#{seat.restaurantId})
+        </foreach>
+    </insert>
+
+    <update id="updateSeat" parameterType="Seat">
+        UPDATE seat
+        SET
+            seat_name = #{seatName},
+            qr_key = #{qrKey}
+        WHERE seat_id = #{seatId};
+    </update>
+
+    <delete id="deleteSeat" parameterType="List">
+        DELETE FROM seat
+        WHERE seat_id IN (
+        <foreach collection="seatIds" item="seat" separator=",">
+            #{seat}
+        </foreach>
+        )
+    </delete>
+</mapper>

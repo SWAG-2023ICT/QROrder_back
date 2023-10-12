@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="swag.qrorder.mapper.RestaurantMapper">
+
+    <resultMap id="RestaurantItems" type="Restaurant">
+        <result property="restaurantName" column="restaurant_name"/>
+        <collection property="items" ofType="Item">
+            <id property="itemId" column="item_id"/>
+            <result property="itemName" column="item_name"/>
+            <result property="itemDescription" column="item_description"/>
+            <result property="itemImage" column="item_image"/>
+            <result property="itemStatus" column="item_status"/>
+            <collection property="options" ofType="Option">
+                <id property="optionId" column="option_id"/>
+                <result property="optionType" column="option_type"/>
+                <result property="optionName" column="option_name"/>
+                <result property="optionDescription" column="option_description"/>
+                <collection property="optionValues" ofType="OptionValue">
+                    <id property="optionValueId" column="option_value_id"/>
+                    <result property="name" column="name"/>
+                    <result property="price" column="price"/>
+                </collection>
+            </collection>
+            <collection property="categories" ofType="Category">
+                <id property="categoryId" column="category_id"/>
+                <result property="categoryName" column="category_name"/>
+                <result property="categoryDescription" column="category_description"/>
+            </collection>
+        </collection>
+    </resultMap>
+    
+    <resultMap id="defaultRestaurant" type="Restaurant">
+        <result property="restaurantName" column="restaurant_name"/>
+        <collection property="items" ofType="Item">
+            <id property="itemId" column="item_id"/>
+            <result property="itemName" column="item_name"/>
+            <result property="itemDescription" column="item_description"/>
+            <result property="itemImage" column="item_image"/>
+            <result property="itemStatus" column="item_status"/>
+            <collection property="categories" ofType="Category">
+                <id property="categoryId" column="category_id"/>
+                <result property="categoryName" column="category_name"/>
+                <result property="categoryDescription" column="category_description"/>
+            </collection>
+        </collection>
+    </resultMap>
+    
+    <select id="findMenuByQr" parameterType="string" resultMap="defaultRestaurant">
+        SELECT r.restaurant_name,i.item_id,i.item_name,i.item_price,i.item_description,i.item_image,i.item_status
+        FROM restaurant r INNER JOIN seat s on r.restaurant_id = s.restaurant_id
+        INNER JOIN item i ON r.restaurant_id = i.restaurant_id
+        INNER JOIN item_detail id on i.item_id = id.item_id
+        INNER JOIN category c on id.category_id = c.category_id
+        WHERE s.qr_key = #{qrKey}
+    </select>
+
+    <select id="findRestaurants" parameterType="string" resultMap="defaultRestaurant">
+        SELECT *
+        FROM restaurant r
+        LEFT JOIN seat s ON r.restaurant_id = s.restaurant_id
+        LEFT JOIN item i ON r.restaurant_id = i.restaurant_id;
+    </select>
+
+    <insert id="addRestaurant" parameterType="Restaurant">
+        INSERT INTO restaurant
+        VALUE (#{restaurantId},#{restaurantName},#{restaurantPhoneNumber},#{bossId})
+    </insert>
+
+    <update id="updateRestaurant" parameterType="Restaurant">
+        UPDATE restaurant
+        SET restaurant_name = #{restaurantName},
+            restaurant_phone_number = #{restaurantPhoneNumber}
+        WHERE restaurant_id = #{restaurantId}
+    </update>
+    
+    <delete id="deleteRestaurant" parameterType="string">
+        DELETE FROM restaurant
+        WHERE restaurant_id = #{restaurantId}
+    </delete>
+</mapper>

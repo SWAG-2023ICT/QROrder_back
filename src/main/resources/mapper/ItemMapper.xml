@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="swag.qrorder.mapper.ItemMapper">
+
+    <resultMap id="menuDetail" type="Item">
+        <id property="itemId" column="item_id"/>
+        <result property="itemName" column="item_name"/>
+        <result property="itemPrice" column="item_price"/>
+        <result property="itemDescription" column="item_description"/>
+        <result property="itemImage" column="item_image"/>
+        <result property="itemStatus" column="item_status"/>
+        <collection property="options" ofType="Option">
+            <id property="optionId" column="option_id"/>
+            <result property="optionType" column="option_type"/>
+            <result property="optionName" column="option_name"/>
+            <result property="optionDescription" column="option_description"/>
+            <collection property="optionValues" ofType="OptionValue">
+                <id property="optionValueId" column="option_value_id"/>
+                <result property="name" column="name"/>
+                <result property="price" column="price"/>
+            </collection>
+        </collection>
+    </resultMap>
+
+    <select id="findAllItems" parameterType="int" resultType="Item">
+        SELECT *
+        FROM item
+        <if test="itemId != null">
+        WHERE item_id = #{itemId}
+        </if>
+    </select>
+
+    <insert id="addItems" parameterType="List" useGeneratedKeys="true" keyProperty="itemId">
+        INSERT INTO item (item_name, item_price, item_description, item_image, item_status, restaurant_id)
+        VALUES
+        <foreach collection="items" item="item" separator=",">
+            (#{item.itemName},#{item.itemPrice},#{item.itemDescription},
+                #{item.itemImage},#{item.itemStatus},#{item.restaurantId})
+        </foreach>
+    </insert>
+
+    <update id="updateItem" parameterType="Item">
+        UPDATE item
+        SET item_name = #{itemName},
+            item_price = #{itemPrice},
+            item_description = #{itemDescription},
+            item_image = #{itemImage}
+        WHERE item_id = #{itemId}
+    </update>
+
+    <update id="updateItemStatus" parameterType="Item">
+        UPDATE item
+        SET item_status = #{itemStatus}
+        WHERE item_id = #{itemId}
+    </update>
+
+    <delete id="deleteItem" parameterType="int">
+        DELETE FROM item
+        WHERE item_id = #{itemId}
+    </delete>
+    
+    <insert id="addItemDetails" parameterType="hashMap">
+        INSERT INTO item_detail
+        VALUES
+            <foreach collection="categoryIds" item="categoryId" separator=",">
+                ( #{itemId}, #{categoryId} )
+            </foreach>
+    </insert>
+
+    <select id="getMenuDetail" parameterType="int" resultMap="menuDetail">
+        SELECT i.item_id,i.item_id,i.item_name,i.item_price,i.item_description,i.item_image,i,item_status,
+            o.option_id,o.option_type,o.option_name,o.option_description,
+            ov.option_value_id,ov.name,ov.price
+        FROM item i LEFT JOIN `option` o on i.item_id = o.item_id
+        LEFT JOIN option_value ov on o.option_id = ov.option_id
+    </select>
+</mapper>

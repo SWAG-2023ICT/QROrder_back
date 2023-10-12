@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="swag.qrorder.mapper.OptionMapper">
+
+    <insert id="addOptions" parameterType="List">
+        INSERT INTO `option` (option_type, option_name, option_description, item_id)
+        VALUES
+        <foreach collection="options" item="option" separator="," open="(" close=")">
+            #{option.optionType},#{option.optionName},#{option.optionDescription},#{itemId}
+        </foreach>
+    </insert>
+
+    <insert id="addOptionValues" parameterType="List">
+        INSERT INTO option_value (name, price, option_id)
+        VALUES
+        <foreach collection="values" item="value" separator="," open="(" close=")">
+            #{value.name},#{value.price},#{value.optionId}
+        </foreach>
+    </insert>
+</mapper>
