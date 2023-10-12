@@ -11,7 +11,7 @@ import swag.qrorder.service.SeatService;
 import java.util.List;
 
 @Slf4j
-@RequestMapping("/qrorder/seats")
+@RequestMapping(value = "/qrorder/seats",produces = "application/json;charset=UTF-8")
 @RequiredArgsConstructor
 @RestController
 public class SeatController {

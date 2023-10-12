@@ -9,7 +9,7 @@ import swag.qrorder.service.ItemService;
 
 import java.util.List;
 
-@RequestMapping("/qrorder/items")
+@RequestMapping(value="/qrorder/items",produces = "application/json;charset=UTF-8")
 @RequiredArgsConstructor
 @RestController
 public class ItemController {

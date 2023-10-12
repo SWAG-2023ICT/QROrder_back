@@ -3,7 +3,10 @@ package swag.qrorder.serviceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import swag.qrorder.mapper.ItemMapper;
+import swag.qrorder.mapper.OptionMapper;
 import swag.qrorder.model.Item;
+import swag.qrorder.model.Option;
+import swag.qrorder.model.OptionValue;
 import swag.qrorder.service.ItemService;
 
 import java.util.HashMap;
@@ -14,6 +17,7 @@ import java.util.Map;
 @Service
 public class ItemServiceImpl implements ItemService {
     private final ItemMapper itemMapper;
+    private final OptionMapper optionMapper;
     @Override
     public List<Item> findAllItems(int itemId) {
         return itemMapper.findAllItems(itemId);
@@ -47,5 +51,15 @@ public class ItemServiceImpl implements ItemService {
         details.put("categoryIds",categoryIds);
         Integer result = itemMapper.addItemDetails(details);
         return result > 0;
+    }
+    @Override
+    public boolean addOptions(List<Option> options) {
+        Integer result = optionMapper.addOptions(options);
+        return result == options.size();
+    }
+    @Override
+    public boolean addOptionValues(List<OptionValue> values) {
+        Integer result = optionMapper.addOptionValues(values);
+        return result == values.size();
     }
 }

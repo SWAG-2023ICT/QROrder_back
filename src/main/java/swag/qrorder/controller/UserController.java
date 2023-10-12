@@ -9,7 +9,7 @@ import swag.qrorder.model.Restaurant;
 import swag.qrorder.service.UserService;
 
 @Slf4j
-@RequestMapping("/qrorder/menus")
+@RequestMapping(value = "/qrorder/menus",produces = "application/json;charset=UTF-8")
 @RequiredArgsConstructor
 @RestController
 public class UserController {

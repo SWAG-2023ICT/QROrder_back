@@ -8,7 +8,7 @@ import swag.qrorder.model.Restaurant;
 import swag.qrorder.service.RestaurantService;
 
 import java.util.List;
-@RequestMapping("/qrorder/restaurants")
+@RequestMapping(value = "/qrorder/restaurants",produces = "application/json;charset=UTF-8")
 @RequiredArgsConstructor
 @RestController
 public class RestaurantController {
