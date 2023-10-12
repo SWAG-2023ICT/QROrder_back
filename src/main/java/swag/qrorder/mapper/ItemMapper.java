@@ -14,4 +14,5 @@ public interface ItemMapper {
     Integer updateItemStatus(Item item);
     Integer deleteItem(int itemId);
     Integer addItemDetails(Map<String,Object> details);
+    Item getMenuDetail(int itemId);
 }

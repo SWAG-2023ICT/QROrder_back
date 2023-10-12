@@ -1,9 +1,9 @@
 package swag.qrorder.serviceImpl;
 
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
 import swag.qrorder.common.util.RandomCodeUtil;
+import swag.qrorder.mapper.ItemMapper;
 import swag.qrorder.mapper.RestaurantMapper;
 import swag.qrorder.mapper.SeatMapper;
 import swag.qrorder.mapper.SessionMapper;
@@ -19,11 +19,9 @@ public class UserServiceImpl implements UserService {
     private final RestaurantMapper restaurantMapper;
     private final SeatMapper seatMapper;
     private final SessionMapper sessionMapper;
+    private final ItemMapper itemMapper;
     private final RandomCodeUtil randomCodeUtil;
-    @Override
-    public Restaurant findRestaurantByQr(String qrKey) {
-        return restaurantMapper.findRestaurantByQr(qrKey);
-    }
+
     public void addOrder(String qrKey,List<Item> items){
         Seat seat = getSeat(qrKey);
         String sessionId = addSession(qrKey,seat.getRestaurantId());
@@ -51,4 +49,15 @@ public class UserServiceImpl implements UserService {
         return seatMapper.findSeatByQr(qrKey);
     }
 
+    @Override
+    public Restaurant findMenuByQr(String qrKey) {
+        return restaurantMapper.findMenuByQr(qrKey);
+    }
+
+    @Override
+    public Item getMenuDetail(int itemId) {
+        Item item = itemMapper.getMenuDetail(itemId);
+//        if(item == null) throw new NullPointerException()
+        return item;
+    }
 }

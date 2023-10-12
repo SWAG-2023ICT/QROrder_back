@@ -3,6 +3,26 @@
 
 <mapper namespace="swag.qrorder.mapper.ItemMapper">
 
+    <resultMap id="menuDetail" type="Item">
+        <id property="itemId" column="item_id"/>
+        <result property="itemName" column="item_name"/>
+        <result property="itemPrice" column="item_price"/>
+        <result property="itemDescription" column="item_description"/>
+        <result property="itemImage" column="item_image"/>
+        <result property="itemStatus" column="item_status"/>
+        <collection property="options" ofType="Option">
+            <id property="optionId" column="option_id"/>
+            <result property="optionType" column="option_type"/>
+            <result property="optionName" column="option_name"/>
+            <result property="optionDescription" column="option_description"/>
+            <collection property="optionValues" ofType="OptionValue">
+                <id property="optionValueId" column="option_value_id"/>
+                <result property="name" column="name"/>
+                <result property="price" column="price"/>
+            </collection>
+        </collection>
+    </resultMap>
+
     <select id="findAllItems" parameterType="int" resultType="Item">
         SELECT *
         FROM item
@@ -47,4 +67,12 @@
                 ( #{itemId}, #{categoryId} )
             </foreach>
     </insert>
+
+    <select id="getMenuDetail" parameterType="int" resultMap="menuDetail">
+        SELECT i.item_id,i.item_id,i.item_name,i.item_price,i.item_description,i.item_image,i,item_status,
+            o.option_id,o.option_type,o.option_name,o.option_description,
+            ov.option_value_id,ov.name,ov.price
+        FROM item i LEFT JOIN `option` o on i.item_id = o.item_id
+        LEFT JOIN option_value ov on o.option_id = ov.option_id
+    </select>
 </mapper>
