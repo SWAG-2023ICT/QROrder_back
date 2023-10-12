@@ -39,4 +39,12 @@
         DELETE FROM item
         WHERE item_id = #{itemId}
     </delete>
+    
+    <insert id="addItemDetails" parameterType="hashMap">
+        INSERT INTO item_detail
+        VALUES
+            <foreach collection="categoryIds" item="categoryId" separator=",">
+                ( #{itemId}, #{categoryId} )
+            </foreach>
+    </insert>
 </mapper>

@@ -6,7 +6,9 @@ import swag.qrorder.mapper.ItemMapper;
 import swag.qrorder.model.Item;
 import swag.qrorder.service.ItemService;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @Service
@@ -36,6 +38,14 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public boolean deleteItem(int itemId) {
         Integer result = itemMapper.deleteItem(itemId);
+        return result > 0;
+    }
+    @Override
+    public boolean addItemDetails(int itemId, List<Integer> categoryIds) {
+        Map<String,Object> details = new HashMap<>();
+        details.put("itemId",itemId);
+        details.put("categoryIds",categoryIds);
+        Integer result = itemMapper.addItemDetails(details);
         return result > 0;
     }
 }

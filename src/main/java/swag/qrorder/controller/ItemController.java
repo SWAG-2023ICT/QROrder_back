@@ -14,6 +14,13 @@ import java.util.List;
 @RestController
 public class ItemController {
     private final ItemService itemService;
+    @PostMapping("/{itemId}")
+    public ResponseEntity<?> addItemDetail(@PathVariable int itemId,@RequestBody List<Integer> categoryIds){
+        boolean flag = itemService.addItemDetails(itemId,categoryIds);
+        if(flag) return ResponseEntity.status(HttpStatus.OK).body("success!");
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("fail!");
+    }
     @PostMapping("")
     public ResponseEntity<?> addItems(@RequestBody List<Item> items){
         boolean flag = itemService.addItems(items);

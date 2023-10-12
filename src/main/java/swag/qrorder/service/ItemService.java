@@ -10,4 +10,5 @@ public interface ItemService {
     boolean updateItem(Item item);
     boolean updateItemStatus(int itemId);
     boolean deleteItem(int itemId);
+    boolean addItemDetails(int itemId, List<Integer> categoryIds);
 }
