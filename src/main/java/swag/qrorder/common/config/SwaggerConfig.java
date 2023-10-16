@@ -22,6 +22,15 @@ public class SwaggerConfig {
                                         .scheme("bearer")
                                         .bearerFormat("JWT")));
     }
+
+    @Bean
+    public GroupedOpenApi bossAPI(){
+        return GroupedOpenApi.builder()
+                .group("boss")
+                .pathsToMatch("/qrorder/boss/**")
+                .build();
+    }
+
     @Bean
     public GroupedOpenApi restaurantAPI(){
         return GroupedOpenApi.builder()
