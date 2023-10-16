@@ -23,7 +23,7 @@ public class JwtFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         log.info("[JwtFilter - Request URL] : {}", request.getRequestURI());
         List<String> list = List.of(
-                "/balmoa/members"
+                "/qrorder/restaurants"
         );
         boolean flag = list.stream().anyMatch(url -> request.getRequestURI().startsWith(url));
         // 현재 URL 이 LIST 안에 포함되있는걸로 시작되나?

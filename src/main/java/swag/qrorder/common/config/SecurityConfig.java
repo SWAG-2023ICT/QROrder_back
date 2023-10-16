@@ -11,17 +11,18 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import swag.qrorder.common.filter.JwtExceptionHandler;
 import swag.qrorder.common.filter.JwtFilter;
+import swag.qrorder.common.util.ErrorUtil;
 import swag.qrorder.common.util.TokenUtil;
 
 @RequiredArgsConstructor
 @Configuration
 public class SecurityConfig {
+    private final TokenUtil tokenUtil;
+    private final ErrorUtil errorUtil;
     private final String[] SWAGGER_URL = {
             "/swagger-ui/**",
             "/qrorder/**"
     };
-    private final TokenUtil tokenUtil;
-
     @Bean
     public PasswordEncoder passwordEncoder() { return new BCryptPasswordEncoder(); }
 
@@ -29,7 +30,7 @@ public class SecurityConfig {
     public JwtFilter jwtFilter(){ return new JwtFilter(tokenUtil);}
 
     @Bean(value = "JwtExceptionHandler")
-    public JwtExceptionHandler jwtExceptionHandler(){ return new JwtExceptionHandler();}
+    public JwtExceptionHandler jwtExceptionHandler(){ return new JwtExceptionHandler(errorUtil);}
 
     @Bean
     SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
