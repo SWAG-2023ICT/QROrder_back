@@ -30,7 +30,7 @@ public class TokenUtil {
                 .signWith(createSignature(), SignatureAlgorithm.HS256)
                 .compact();
 
-        return Token.builder().tokenId(id).accessToken(access_token).build();
+        return Token.builder().bossId(id).accessToken(access_token).build();
     }
 
     public Claims getClaims(String token){

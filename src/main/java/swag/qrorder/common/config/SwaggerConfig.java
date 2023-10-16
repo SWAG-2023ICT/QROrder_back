@@ -18,9 +18,7 @@ public class SwaggerConfig {
                         .description("TEST 및 API 명세서로 사용함."))
                 .components(new Components()
                         .addSecuritySchemes("bearer-key",
-                                new SecurityScheme().type(SecurityScheme.Type.HTTP)
-                                        .scheme("bearer")
-                                        .bearerFormat("JWT")));
+                                new SecurityScheme().type(SecurityScheme.Type.HTTP).scheme("bearer").bearerFormat("JWT")));
     }
 
     @Bean

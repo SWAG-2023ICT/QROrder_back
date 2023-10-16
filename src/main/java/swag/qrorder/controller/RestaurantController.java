@@ -1,5 +1,7 @@
 package swag.qrorder.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,6 +10,8 @@ import swag.qrorder.model.Restaurant;
 import swag.qrorder.service.RestaurantService;
 
 import java.util.List;
+
+
 @RequestMapping(value = "/qrorder/restaurants",produces = "application/json;charset=UTF-8")
 @RequiredArgsConstructor
 @RestController
@@ -21,6 +25,7 @@ public class RestaurantController {
 
         return ResponseEntity.status(HttpStatus.OK).body(restaurants);
     }
+    @Operation(security = { @SecurityRequirement(name = "bearer-key") })
     @PostMapping("")
     public ResponseEntity<?> addRestaurant(@RequestBody Restaurant restaurant){
         boolean flag = restaurantService.addRestaurant(restaurant);

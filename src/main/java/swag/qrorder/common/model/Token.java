@@ -1,13 +1,15 @@
 package swag.qrorder.common.model;
 
 import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
-import javax.persistence.Id;
 import java.io.Serializable;
 
 @Builder
+@Setter
+@Getter
 public class Token implements Serializable {
-    @Id
-    private String tokenId;
+    private String bossId;
     private String accessToken;
 }
