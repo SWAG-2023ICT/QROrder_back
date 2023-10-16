@@ -18,6 +18,5 @@ public class Option {
     String optionName;
     String optionDescription;
     Integer itemId;
-    @Schema(hidden = true)
     List<OptionValue> optionValues;
 }

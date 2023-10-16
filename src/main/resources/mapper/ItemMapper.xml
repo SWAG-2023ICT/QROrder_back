@@ -31,13 +31,11 @@
         </if>
     </select>
 
-    <insert id="addItems" parameterType="List" useGeneratedKeys="true" keyProperty="itemId">
+    <insert id="addItem" parameterType="Item" useGeneratedKeys="true" keyProperty="itemId">
         INSERT INTO item (item_name, item_price, item_description, item_image, item_status, restaurant_id)
         VALUES
-        <foreach collection="items" item="item" separator=",">
             (#{item.itemName},#{item.itemPrice},#{item.itemDescription},
                 #{item.itemImage},#{item.itemStatus},#{item.restaurantId})
-        </foreach>
     </insert>
 
     <update id="updateItem" parameterType="Item">
@@ -74,5 +72,10 @@
             ov.option_value_id,ov.name,ov.price
         FROM item i LEFT JOIN `option` o on i.item_id = o.item_id
         LEFT JOIN option_value ov on o.option_id = ov.option_id
+    </select>
+
+    <select id="getCategories" resultType="Category">
+        SELECT *
+        FROM category
     </select>
 </mapper>
