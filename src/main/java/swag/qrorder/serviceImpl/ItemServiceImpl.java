@@ -1,9 +1,12 @@
 package swag.qrorder.serviceImpl;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import swag.qrorder.mapper.ItemMapper;
 import swag.qrorder.mapper.OptionMapper;
+import swag.qrorder.model.Category;
 import swag.qrorder.model.Item;
 import swag.qrorder.model.Option;
 import swag.qrorder.model.OptionValue;
@@ -12,7 +15,8 @@ import swag.qrorder.service.ItemService;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+@Slf4j
+@Transactional
 @RequiredArgsConstructor
 @Service
 public class ItemServiceImpl implements ItemService {
@@ -23,9 +27,9 @@ public class ItemServiceImpl implements ItemService {
         return itemMapper.findAllItems(itemId);
     }
     @Override
-    public boolean addItems(List<Item> items) {
-        Integer result = itemMapper.addItems(items);
-        return result == items.size();
+    public boolean addItems(Item item) {
+        Integer result = itemMapper.addItem(item);
+        return result > 0;
     }
     @Override
     public boolean updateItem(Item item) {
@@ -55,11 +59,24 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public boolean addOptions(List<Option> options) {
         Integer result = optionMapper.addOptions(options);
-        return result == options.size();
+        if(result == options.size()){
+            for(Option option : options){
+                List<OptionValue> optionValues = option.getOptionValues();
+                for(OptionValue optionValue : optionValues){
+                    optionValue.setOptionId(option.getOptionId());
+                }
+                if(!addOptionValues(optionValues)) return false;
+            }
+        }
+        return true;
     }
     @Override
     public boolean addOptionValues(List<OptionValue> values) {
         Integer result = optionMapper.addOptionValues(values);
         return result == values.size();
+    }
+    @Override
+    public List<Category> getCategories() {
+        return itemMapper.getCategories();
     }
 }
