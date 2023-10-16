@@ -1,6 +1,7 @@
 package swag.qrorder.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 import java.util.List;
@@ -17,5 +18,6 @@ public class Option {
     String optionName;
     String optionDescription;
     Integer itemId;
+    @Schema(hidden = true)
     List<OptionValue> optionValues;
 }

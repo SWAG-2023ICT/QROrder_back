@@ -1,6 +1,7 @@
 package swag.qrorder.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 import java.util.List;
@@ -20,6 +21,8 @@ public class Item {
     boolean itemStatus;
     String restaurantId;
     int amount;
+    @Schema(hidden = true)
     List<Option> options;
+    @Schema(hidden = true)
     List<Category> categories;
 }

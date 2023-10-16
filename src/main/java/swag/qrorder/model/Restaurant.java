@@ -1,6 +1,7 @@
 package swag.qrorder.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 import javax.validation.constraints.Pattern;
@@ -18,6 +19,8 @@ public class Restaurant {
     String restaurantName;
     String restaurantPhoneNumber;
     String bossId;
+    @Schema(hidden = true)
     List<Seat> seats;
+    @Schema(hidden = true)
     List<Item> items;
 }
