@@ -3,19 +3,19 @@
 
 <mapper namespace="swag.qrorder.mapper.OptionMapper">
 
-    <insert id="addOptions" parameterType="List">
+    <insert id="addOptions" parameterType="List" useGeneratedKeys="true" keyProperty="optionId">
         INSERT INTO `option` (option_type, option_name, option_description, item_id)
         VALUES
-        <foreach collection="options" item="option" separator="," open="(" close=")">
-            #{option.optionType},#{option.optionName},#{option.optionDescription},#{itemId}
+        <foreach collection="options" item="option" separator=",">
+            ( #{option.optionType},#{option.optionName},#{option.optionDescription},#{option.itemId})
         </foreach>
     </insert>
 
     <insert id="addOptionValues" parameterType="List">
         INSERT INTO option_value (name, price, option_id)
         VALUES
-        <foreach collection="values" item="value" separator="," open="(" close=")">
-            #{value.name},#{value.price},#{value.optionId}
+        <foreach collection="values" item="value" separator=",">
+            ( #{value.name},#{value.price},#{value.optionId} )
         </foreach>
     </insert>
 </mapper>
