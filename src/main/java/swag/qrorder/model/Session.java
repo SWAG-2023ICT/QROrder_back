@@ -9,8 +9,7 @@ import java.util.Date;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
+@Data
 public class Session {
     String sessionId;
     Date creationDtm;

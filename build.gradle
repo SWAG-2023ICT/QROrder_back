@@ -32,6 +32,8 @@ dependencies {
     // Database
     runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.3.1'
+    // Redis
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     // Swagger
     implementation 'org.springdoc:springdoc-openapi-ui:1.7.0'
     // AOP
