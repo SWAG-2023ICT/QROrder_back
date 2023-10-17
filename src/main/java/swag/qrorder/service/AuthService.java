@@ -1,10 +1,9 @@
 package swag.qrorder.service;
 
 
-import io.swagger.v3.oas.models.security.SecurityScheme;
 import swag.qrorder.model.Boss;
 
-public interface BossService {
+public interface AuthService {
 
     boolean signIn(Boss boss);
 

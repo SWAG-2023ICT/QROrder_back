@@ -4,7 +4,7 @@ import org.apache.ibatis.annotations.Mapper;
 import swag.qrorder.model.Boss;
 
 @Mapper
-public interface BossMapper {
+public interface AuthMapper {
 
     Boss getBossByBossId(Boss boss);
 
