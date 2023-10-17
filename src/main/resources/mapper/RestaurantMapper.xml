@@ -34,6 +34,13 @@
         LEFT JOIN item i ON r.restaurant_id = i.restaurant_id;
     </select>
 
+    <select id="findRestaurantId" parameterType="string" resultType="string">
+        SELECT restaurant_id
+        FROM restaurant
+        WHERE boss_id = #{bossId}
+        LIMIT 1;
+    </select>
+
     <insert id="addRestaurant" parameterType="Restaurant">
         INSERT INTO restaurant
         VALUE (#{restaurantId},#{restaurantName},#{restaurantPhoneNumber},#{bossId})

@@ -11,9 +11,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
-@Getter
-@Setter
+@Data
 public class Boss {
     String bossId;
     String password;
