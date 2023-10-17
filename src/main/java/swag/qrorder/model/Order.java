@@ -14,6 +14,7 @@ import java.util.List;
 public class Order {
     int orderId;
     Date orderDtm;
+    boolean orderStatus;
     int totalPrice;
     String seatId;
     String sessionId;

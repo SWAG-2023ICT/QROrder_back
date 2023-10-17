@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import swag.qrorder.model.Item;
 import swag.qrorder.model.Restaurant;
 import swag.qrorder.service.UserService;
+import swag.qrorder.vo.OrderVo;
 
 @Slf4j
 @RequestMapping(value = "/qrorder/menus",produces = "application/json;charset=UTF-8")
@@ -26,7 +27,16 @@ public class UserController {
     @GetMapping("/detail")
     public ResponseEntity<?> findMenuDetail(@RequestParam int itemId){
         Item item = userService.getMenuDetail(itemId);
-        return ResponseEntity.status(HttpStatus.OK).body("success!");
+        return ResponseEntity.status(HttpStatus.OK).body(item);
     }
+
+    @PostMapping("/{qrKey}/order")
+    public ResponseEntity<?> addOrder(@PathVariable String qrKey, @RequestBody OrderVo orderVo){
+        OrderVo response = userService.addOrder(qrKey,orderVo);
+        return null;
+
+    }
+
+
 
 }

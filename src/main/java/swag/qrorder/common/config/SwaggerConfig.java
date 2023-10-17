@@ -26,8 +26,8 @@ public class SwaggerConfig {
     @Bean
     public GroupedOpenApi bossAPI(){
         return GroupedOpenApi.builder()
-                .group("boss")
-                .pathsToMatch("/qrorder/boss/**")
+                .group("auth")
+                .pathsToMatch("/qrorder/auth/**")
                 .build();
     }
 
