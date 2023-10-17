@@ -34,7 +34,7 @@ public class BossController {
         log.info("{}", registerVO.getRestaurant());
         boolean bossAddResult = bossService.signUp(registerVO.getBoss());
         if(bossAddResult) {
-            Boolean restaurantAddResult = restaurantService.addRestaurant(registerVO.getRestaurant());
+            boolean restaurantAddResult = restaurantService.addRestaurant(registerVO.getRestaurant());
             if(restaurantAddResult) return ResponseEntity.status(HttpStatus.CREATED).build();
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -45,10 +45,8 @@ public class BossController {
         if(boss == null) return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 
         boolean result = bossService.signIn(boss);
-        if(result) return ResponseEntity.status(HttpStatus.OK).build();
-      
-        Integer result = bossService.signIn(boss);
-        if(result.equals(1)){
+
+        if(result){
             String accessToken = jwtService.signIn(boss.getBossId());
             response.setHeader("Authorization", "Bearer " + accessToken);
             return ResponseEntity.status(HttpStatus.OK).build();
