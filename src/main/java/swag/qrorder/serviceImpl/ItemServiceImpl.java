@@ -12,6 +12,7 @@ import swag.qrorder.model.Option;
 import swag.qrorder.model.OptionValue;
 import swag.qrorder.service.ItemService;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,8 +50,10 @@ public class ItemServiceImpl implements ItemService {
         return result > 0;
     }
     @Override
-    public boolean addItemDetails(int itemId, List<Integer> categoryIds) {
+    public boolean addItemDetails(int itemId, List<Category> categories) {
         Map<String,Object> details = new HashMap<>();
+        List<Integer> categoryIds = new ArrayList<>();
+        for(Category category : categories) categoryIds.add(category.getCategoryId());
         details.put("itemId",itemId);
         details.put("categoryIds",categoryIds);
         Integer result = itemMapper.addItemDetails(details);

@@ -24,13 +24,13 @@ public class UserServiceImpl implements UserService {
     private final OrderMapper orderMapper;
     private final RandomCodeUtil randomCodeUtil;
 
-    public OrderVo addOrder(String qrKey, OrderVo orderVo){
+    public Session addOrder(String qrKey, OrderVo orderVo){
         Seat seat = getSeat(qrKey);
-        String sessionId = addSession(seat.getRestaurantId());
+        Session session = addSession(seat.getRestaurantId());
         Order order = Order.builder()
                 .totalPrice(orderVo.getTotalPrice())
                 .seatId(seat.getSeatId())
-                .sessionId(sessionId)
+                .sessionId(session.getSessionId())
                 .build();
         Integer result = orderMapper.addOrder(order);
         if(result > 0){
@@ -47,14 +47,20 @@ public class UserServiceImpl implements UserService {
             }
             result = orderMapper.addOrderList(orderDetails);
             if(result == orderDetails.size()){
-                result = orderMapper.addOrderList(orderDetails);
-                log.info("fuck : {}||{}",result,orderDetails);
+                if(orderMapper.addSelectedOption(orderDetails) == orderDetails.size())
+                    return session;
             }
 
         }
         return null;
     }
-    private String addSession(String restaurantId){
+
+    @Override
+    public List<OrderVo> findHistory(String sessionId) {
+        return orderMapper.findHistory(sessionId);
+    }
+
+    private Session addSession(String restaurantId){
         Session session = sessionMapper.findSession(restaurantId);
         if(session == null){
             session = Session.builder()
@@ -63,7 +69,7 @@ public class UserServiceImpl implements UserService {
                     .build();
             sessionMapper.addSession(session);
         } // else 이전 세션이 만료되었는지 확인.
-        return session.getSessionId();
+        return session;
     }
     private Seat getSeat(String qrKey){
         return seatMapper.findSeatByQr(qrKey);

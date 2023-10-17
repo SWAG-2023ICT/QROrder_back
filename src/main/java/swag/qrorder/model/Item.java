@@ -22,9 +22,8 @@ public class Item {
     boolean itemStatus;
     String restaurantId;
     @Schema(nullable = true, hidden = true)
-    int amount;
+    Integer amount;
     @Schema(hidden = true)
     List<Option> options;
-    @Schema(hidden = true)
     List<Category> categories;
 }

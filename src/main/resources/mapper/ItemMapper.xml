@@ -34,8 +34,8 @@
     <insert id="addItem" parameterType="Item" useGeneratedKeys="true" keyProperty="itemId">
         INSERT INTO item (item_name, item_price, item_description, item_image, item_status, restaurant_id)
         VALUES
-            (#{item.itemName},#{item.itemPrice},#{item.itemDescription},
-                #{item.itemImage},#{item.itemStatus},#{item.restaurantId})
+            (#{itemName},#{itemPrice},#{itemDescription},
+                #{itemImage},#{itemStatus},#{restaurantId})
     </insert>
 
     <update id="updateItem" parameterType="Item">

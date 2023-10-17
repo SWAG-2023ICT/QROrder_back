@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class OrderDetail {
+    private int orderListId;
     private int itemId;
     private int orderId;
     private int amount;

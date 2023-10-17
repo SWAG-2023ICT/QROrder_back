@@ -19,7 +19,8 @@
     </resultMap>
     
     <select id="findMenuByQr" parameterType="string" resultMap="defaultRestaurant">
-        SELECT r.restaurant_name,i.item_id,i.item_name,i.item_price,i.item_description,i.item_image,i.item_status
+        SELECT r.restaurant_name,i.item_id,i.item_name,i.item_price,i.item_description,i.item_image,i.item_status,
+               c.category_id,c.category_name,c.category_description
         FROM restaurant r INNER JOIN seat s on r.restaurant_id = s.restaurant_id
         INNER JOIN item i ON r.restaurant_id = i.restaurant_id
         INNER JOIN item_detail id on i.item_id = id.item_id

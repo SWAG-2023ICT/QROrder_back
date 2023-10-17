@@ -7,8 +7,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import swag.qrorder.model.Item;
 import swag.qrorder.model.Restaurant;
+import swag.qrorder.model.Session;
 import swag.qrorder.service.UserService;
 import swag.qrorder.vo.OrderVo;
+
+import java.util.List;
 
 @Slf4j
 @RequestMapping(value = "/qrorder/menus",produces = "application/json;charset=UTF-8")
@@ -32,9 +35,18 @@ public class UserController {
 
     @PostMapping("/{qrKey}/order")
     public ResponseEntity<?> addOrder(@PathVariable String qrKey, @RequestBody OrderVo orderVo){
-        OrderVo response = userService.addOrder(qrKey,orderVo);
-        return null;
+        Session session = userService.addOrder(qrKey,orderVo);
+        if(session != null) return ResponseEntity.ok(session);
 
+        return ResponseEntity.badRequest().build();
+    }
+
+    @GetMapping("/history/{sessionId}")
+    public ResponseEntity<?> findHistory(@PathVariable String sessionId){
+        List<OrderVo> orders = userService.findHistory(sessionId);
+        if(orders != null) return ResponseEntity.ok(orders);
+
+        return ResponseEntity.badRequest().build();
     }
 
 

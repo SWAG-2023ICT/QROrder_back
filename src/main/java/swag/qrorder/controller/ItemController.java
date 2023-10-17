@@ -18,23 +18,18 @@ import java.util.List;
 @RestController
 public class ItemController {
     private final ItemService itemService;
-    @PostMapping("/{itemId}")
-    public ResponseEntity<?> addItemDetail(@PathVariable int itemId,@RequestBody List<Integer> categoryIds){
-        boolean flag = itemService.addItemDetails(itemId,categoryIds);
-        if(flag) return ResponseEntity.status(HttpStatus.OK).body("success!");
-
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("fail!");
-    }
-    @PostMapping(value = "",consumes = {MediaType.MULTIPART_FORM_DATA_VALUE,MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping(value = "",consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<?> addItems(@RequestPart MultipartFile itemImage,
                                       @RequestPart Item item) throws IOException {
         item.setItemImage(itemImage.getBytes());
         boolean flag = itemService.addItems(item);
+        if(flag) flag = itemService.addItemDetails(item.getItemId(),item.getCategories());
+
         if(flag) return ResponseEntity.status(HttpStatus.OK).body("success!");
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("fail!");
     }
-    @PutMapping(value = "",consumes = {MediaType.MULTIPART_FORM_DATA_VALUE,MediaType.APPLICATION_JSON_VALUE})
+    @PutMapping(value = "",consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<?> updateItems(@RequestPart MultipartFile itemImage,
                                          @RequestPart Item item) throws IOException {
         item.setItemImage(itemImage.getBytes());
