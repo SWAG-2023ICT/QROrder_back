@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import swag.qrorder.model.Boss;
 import swag.qrorder.service.RestaurantService;
 import swag.qrorder.vo.RegisterVO;
-import swag.qrorder.service.BossService;
+import swag.qrorder.service.AuthService;
 import swag.qrorder.service.JwtService;
 
 import javax.servlet.http.HttpServletResponse;
@@ -20,10 +20,10 @@ import java.sql.SQLException;
 
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping("/qrorder/boss")
+@RequestMapping("/qrorder/auth")
 @RestController
-public class BossController {
-    private final BossService bossService;
+public class AuthController {
+    private final AuthService authService;
     private final RestaurantService restaurantService;
     private final JwtService jwtService;
   
@@ -32,7 +32,7 @@ public class BossController {
         if(registerVO == null) return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         log.info("{}", registerVO.getBoss());
         log.info("{}", registerVO.getRestaurant());
-        boolean bossAddResult = bossService.signUp(registerVO.getBoss());
+        boolean bossAddResult = authService.signUp(registerVO.getBoss());
         if(bossAddResult) {
             boolean restaurantAddResult = restaurantService.addRestaurant(registerVO.getRestaurant());
             if(restaurantAddResult) return ResponseEntity.status(HttpStatus.CREATED).build();
@@ -44,7 +44,7 @@ public class BossController {
     public ResponseEntity<?> signIn(HttpServletResponse response,Boss boss) throws SQLException {
         if(boss == null) return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 
-        boolean result = bossService.signIn(boss);
+        boolean result = authService.signIn(boss);
 
         if(result){
             String accessToken = jwtService.signIn(boss.getBossId());
