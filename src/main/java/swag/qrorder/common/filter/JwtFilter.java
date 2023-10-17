@@ -25,7 +25,8 @@ public class JwtFilter extends OncePerRequestFilter {
         List<String> list = List.of(
                 "/qrorder/restaurants",
                 "/qrorder/seats",
-                "/qrorder/items"
+                "/qrorder/items",
+                "/qrorder/auth/"
         );
         boolean flag = list.stream().anyMatch(url -> request.getRequestURI().startsWith(url));
         // 현재 URL 이 LIST 안에 포함되있는걸로 시작되나?
