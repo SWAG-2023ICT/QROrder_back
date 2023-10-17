@@ -35,4 +35,5 @@ public class RestaurantServiceImpl implements RestaurantService {
         Integer result = restaurantMapper.deleteRestaurant(restaurantId);
         return result > 0;
     }
+
 }

@@ -12,4 +12,5 @@ public interface RestaurantMapper {
     Integer updateRestaurant(Restaurant restaurant);
     Integer deleteRestaurant(String restaurantId);
     Restaurant findMenuByQr(String qrKey);
+    String findRestaurantId(String bossId);
 }
