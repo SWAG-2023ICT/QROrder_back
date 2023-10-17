@@ -25,7 +25,7 @@ public class RestaurantController {
 
         return ResponseEntity.status(HttpStatus.OK).body(restaurants);
     }
-    @Operation(security = { @SecurityRequirement(name = "bearer-key") })
+
     @PostMapping("")
     public ResponseEntity<?> addRestaurant(@RequestBody Restaurant restaurant){
         boolean flag = restaurantService.addRestaurant(restaurant);

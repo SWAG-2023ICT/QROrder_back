@@ -5,6 +5,6 @@
 
     <insert id="addJwt" parameterType="swag.qrorder.common.model.Token">
         INSERT INTO jwt
-        VALUES (#{bossId},#{accessToken})
+        VALUES (#{restaurantId},#{accessToken})
     </insert>
 </mapper>

@@ -10,6 +10,6 @@ import java.io.Serializable;
 @Setter
 @Getter
 public class Token implements Serializable {
-    private String bossId;
+    private String restaurantId;
     private String accessToken;
 }

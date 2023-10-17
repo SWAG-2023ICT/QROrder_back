@@ -21,7 +21,7 @@ public class TokenUtil {
         this.secretKey = secretKey;
     }
 
-    public Token createToken(String id){     // restaurantId
+    public Token createToken(String id){ // restaurantId
         String access_token = Jwts.builder()
                 .setHeader(createHeader())
                 .setClaims(createClaims())
@@ -30,7 +30,7 @@ public class TokenUtil {
                 .signWith(createSignature(), SignatureAlgorithm.HS256)
                 .compact();
 
-        return Token.builder().bossId(id).accessToken(access_token).build();
+        return Token.builder().restaurantId(id).accessToken(access_token).build();
     }
 
     public Claims getClaims(String token){

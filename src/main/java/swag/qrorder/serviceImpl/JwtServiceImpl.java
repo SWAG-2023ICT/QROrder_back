@@ -11,15 +11,18 @@ import swag.qrorder.service.JwtService;
 @RequiredArgsConstructor
 @Service
 public class JwtServiceImpl implements JwtService {
-//    private final RestaurantMapper restaurantMapper;
+    private final RestaurantMapper restaurantMapper;
     private final JwtMapper jwtMapper;
     private final TokenUtil tokenUtil;
 
     @Override
     public String addJwt(String bossId) {
-//        String restaurantId = restaurantMapper.findRestaurantId(bossId);
-        Token token = tokenUtil.createToken(bossId);
+        String restaurantId = restaurantMapper.findRestaurantId(bossId);
+        if(restaurantId == null) return "";
+        Token token = tokenUtil.createToken(restaurantId);
         Integer result = jwtMapper.addJwt(token);
-        return token.getAccessToken();
+        if(result > 0) return token.getAccessToken();
+
+        return "";
     }
 }
