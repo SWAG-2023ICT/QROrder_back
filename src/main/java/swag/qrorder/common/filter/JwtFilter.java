@@ -23,7 +23,9 @@ public class JwtFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         log.info("[JwtFilter - Request URL] : {}", request.getRequestURI());
         List<String> list = List.of(
-                "/qrorder/restaurants"
+                "/qrorder/restaurants",
+                "/qrorder/seats",
+                "/qrorder/items"
         );
         boolean flag = list.stream().anyMatch(url -> request.getRequestURI().startsWith(url));
         // 현재 URL 이 LIST 안에 포함되있는걸로 시작되나?
@@ -38,6 +40,8 @@ public class JwtFilter extends OncePerRequestFilter {
             if(header.startsWith("Bearer")){
                 String access_token = header.split(" ")[1];
                 if(tokenUtil.isValidToken(access_token)){
+                    request.setAttribute("restaurantId",
+                            tokenUtil.getClaims(access_token).getSubject());
                     filterChain.doFilter(request,response);
                 }
             }

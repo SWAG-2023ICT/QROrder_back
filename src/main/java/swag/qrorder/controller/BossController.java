@@ -12,6 +12,7 @@ import swag.qrorder.service.BossService;
 import swag.qrorder.service.JwtService;
 
 import javax.servlet.http.HttpServletResponse;
+import java.sql.SQLException;
 
 
 @RequiredArgsConstructor
@@ -29,11 +30,11 @@ public class BossController {
     }
 
     @PostMapping("signIn")
-    public ResponseEntity<?> signIn(HttpServletResponse response,Boss boss){
+    public ResponseEntity<?> signIn(HttpServletResponse response,Boss boss) throws SQLException {
         if(boss == null) return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         Integer result = bossService.signIn(boss);
         if(result.equals(1)){
-            String accessToken = jwtService.addJwt(boss.getBossId());
+            String accessToken = jwtService.signIn(boss.getBossId());
             response.setHeader("Authorization", "Bearer " + accessToken);
             return ResponseEntity.status(HttpStatus.OK).build();
         }

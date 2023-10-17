@@ -7,4 +7,9 @@
         INSERT INTO jwt
         VALUES (#{restaurantId},#{accessToken})
     </insert>
+
+    <delete id="deleteJwt" parameterType="string">
+        DELETE FROM jwt
+        WHERE restaurant_id = #{restaurantId}
+    </delete>
 </mapper>

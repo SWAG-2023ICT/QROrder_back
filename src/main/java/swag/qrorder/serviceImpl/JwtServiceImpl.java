@@ -8,6 +8,8 @@ import swag.qrorder.mapper.JwtMapper;
 import swag.qrorder.mapper.RestaurantMapper;
 import swag.qrorder.service.JwtService;
 
+import java.sql.SQLException;
+
 @RequiredArgsConstructor
 @Service
 public class JwtServiceImpl implements JwtService {
@@ -16,13 +18,28 @@ public class JwtServiceImpl implements JwtService {
     private final TokenUtil tokenUtil;
 
     @Override
-    public String addJwt(String bossId) {
+    public String signIn(String bossId) throws SQLException {
         String restaurantId = restaurantMapper.findRestaurantId(bossId);
-        if(restaurantId == null) return "";
+        if(restaurantId == null) throw new SQLException();
         Token token = tokenUtil.createToken(restaurantId);
         Integer result = jwtMapper.addJwt(token);
         if(result > 0) return token.getAccessToken();
 
-        return "";
+        throw new SQLException();
+    }
+
+    @Override
+    public boolean deleteJwt(String restaurantId) {
+        Integer result = jwtMapper.deleteJwt(restaurantId);
+        return result > 0;
+    }
+
+    @Override
+    public String switchJwt(String restaurantId) throws SQLException {
+        Token token = tokenUtil.createToken(restaurantId);
+        Integer result = jwtMapper.addJwt(token);
+        if(result > 0) return token.getAccessToken();
+
+        throw new SQLException();
     }
 }

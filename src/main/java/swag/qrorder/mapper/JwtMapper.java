@@ -6,4 +6,5 @@ import swag.qrorder.common.model.Token;
 @Mapper
 public interface JwtMapper {
     Integer addJwt(Token token);
+    Integer deleteJwt(String restaurantId);
 }
