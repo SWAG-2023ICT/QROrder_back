@@ -1,6 +1,7 @@
 package swag.qrorder.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -8,28 +9,37 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import swag.qrorder.model.Boss;
+import swag.qrorder.service.RestaurantService;
+import swag.qrorder.vo.RegisterVO;
 import swag.qrorder.service.BossService;
 
 
+@Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/qrorder/boss")
 @RestController
 public class BossController {
     private final BossService bossService;
+    private final RestaurantService restaurantService;
 
     @PostMapping("/signUp")
-    public ResponseEntity<?> signUp(Boss boss){
-        if(boss == null) return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        Integer result = bossService.signUp(boss);
-        if(result.equals(1)) return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<?> signUp(@RequestBody RegisterVO registerVO){
+        if(registerVO == null) return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        log.info("{}", registerVO.getBoss());
+        log.info("{}", registerVO.getRestaurant());
+        boolean bossAddResult = bossService.signUp(registerVO.getBoss());
+        if(bossAddResult) {
+            Boolean restaurantAddResult = restaurantService.addRestaurant(registerVO.getRestaurant());
+            if(restaurantAddResult) return ResponseEntity.status(HttpStatus.CREATED).build();
+        }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
     @PostMapping("signIn")
     public ResponseEntity<?> signIn(Boss boss){
         if(boss == null) return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        Integer result = bossService.signIn(boss);
-        if(result.equals(1)) return ResponseEntity.status(HttpStatus.OK).build();
+        boolean result = bossService.signIn(boss);
+        if(result) return ResponseEntity.status(HttpStatus.OK).build();
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 }

@@ -17,19 +17,19 @@ public class BossServiceImpl implements BossService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public Integer signIn(Boss signInBoss) {
+    public boolean signIn(Boss signInBoss) {
         Boss boss = bossMapper.getBossByBossId(signInBoss);
-        if(boss == null) return 0;
-        Integer result = passwordEncoder.matches(signInBoss.getPassword(), boss.getPassword())?1:0;
+        if(boss == null) return false;
+        boolean result = passwordEncoder.matches(signInBoss.getPassword(), boss.getPassword());
         return result;
     }
 
     @Override
-    public Integer signUp(Boss signUpBoss) {
+    public boolean signUp(Boss signUpBoss) {
         Boss boss = bossMapper.getBossByBossId(signUpBoss);
-        if(boss != null) return 0;
+        if(boss != null) return false;
         signUpBoss.setPassword(passwordEncoder.encode(signUpBoss.getPassword()));
-        Integer result = bossMapper.signUp(signUpBoss);
+        boolean result = bossMapper.signUp(signUpBoss) > 0;
         return result;
     }
 
