@@ -6,7 +6,7 @@ import swag.qrorder.model.Boss;
 
 public interface BossService {
 
-    Integer signIn(Boss boss);
+    boolean signIn(Boss boss);
 
-    Integer signUp(Boss boss);
+    boolean signUp(Boss boss);
 }
