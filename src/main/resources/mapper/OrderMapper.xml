@@ -21,10 +21,15 @@
         <id property="itemId" column="item_id"/>
         <result property="itemName" column="item_name"/>
         <result property="itemPrice" column="item_price"/>
-        <association property="optionName" javaType="int">
-            <result property="optionName" column="optionName"/>
-            <association property="optionValue"
-        </association>
+        <collection property="options" ofType="Option">
+            <id property="optionId" column="option_id"/>
+            <result property="optionName" column="option_name"/>
+            <collection property="optionValues" ofType="OptionValue">
+                <id property="optionValueId" column="option_value_id"/>
+                <result property="name" column="name"/>
+                <result property="price" column="price"/>
+            </collection>
+        </collection>
     </resultMap>
 
     <insert id="addOrder" parameterType="Order" useGeneratedKeys="true" keyProperty="orderId">
@@ -58,8 +63,12 @@
     </select>
 
     <select id="findDetailHistory" parameterType="int" resultMap="detailOrderHistory">
-        SELECT
-        FROM
+        SELECT o.option_id,o.option_name,
+               ov.option_value_id,ov.name,ov.price
+        FROM `option` o
+        INNER JOIN option_value ov ON o.option_id = ov.option_id
+        INNER JOIN selected_option so  ON ov.option_value_id = so.option_value_id
+        WHERE so.order_list_id = #{orderListId}
     </select>
 
 

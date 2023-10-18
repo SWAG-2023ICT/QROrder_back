@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import swag.qrorder.model.Boss;
-import swag.qrorder.model.Reservation;
+import swag.qrorder.model.Restaurant;
 import swag.qrorder.service.ReservationService;
 import swag.qrorder.service.RestaurantService;
 import swag.qrorder.vo.RegisterVO;
@@ -39,7 +39,9 @@ public class AuthController {
         log.info("{}", registerVO.getRestaurant());
         boolean bossAddResult = authService.signUp(registerVO.getBoss());
         if(bossAddResult) {
-            boolean restaurantAddResult = restaurantService.addRestaurant(registerVO.getRestaurant());
+            Restaurant restaurant = registerVO.getRestaurant();
+            restaurant.setBossId(registerVO.getBoss().getBossId());
+            boolean restaurantAddResult = restaurantService.addRestaurant(restaurant);
             if(restaurantAddResult) return ResponseEntity.status(HttpStatus.CREATED).body("회원가입이 성공적으로 완료되었습니다.");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("레스토랑 추가에 실패했습니다.");
         }

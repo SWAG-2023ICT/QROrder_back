@@ -53,7 +53,9 @@ public class UserController {
     @GetMapping("/history/detail")
     public ResponseEntity<?> findHistoryDetail(@RequestParam int orderListId){
         List<ItemVo> items = userService.findHistoryDetail(orderListId);
-        return null;
+        if(items != null) return ResponseEntity.ok(items);
+
+        return ResponseEntity.badRequest().build();
     }
 
 

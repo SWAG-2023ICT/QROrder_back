@@ -1,7 +1,12 @@
 package swag.qrorder.vo;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
+import swag.qrorder.model.Option;
 
+import java.util.List;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -11,9 +16,6 @@ public class ItemVo {
     private int itemId;
     private String itemName;
     private int itemPrice;
-    private String optionName;
-    private int optionValueId;
-    private int optionValueName;
-    private int optionValuePrice;
+    private List<Option> options;
     private int amount;
 }
