@@ -7,11 +7,24 @@
         <result property="orderDtm" column="order_dtm"/>
         <result property="orderStatus" column="order_status"/>
         <result property="totalPrice" column="total_price"/>
+        <association property="orderListId" javaType="int">
+            <id property="orderListId" column="order_list_id"/>
+        </association>
         <collection property="items" ofType="ItemVo">
             <id property="itemId" column="item_id"/>
             <result property="itemName" column="item_name"/>
             <result property="itemPrice" column="item_price"/>
         </collection>
+    </resultMap>
+
+    <resultMap id="detailOrderHistory" type="ItemVo">
+        <id property="itemId" column="item_id"/>
+        <result property="itemName" column="item_name"/>
+        <result property="itemPrice" column="item_price"/>
+        <association property="optionName" javaType="int">
+            <result property="optionName" column="optionName"/>
+            <association property="optionValue"
+        </association>
     </resultMap>
 
     <insert id="addOrder" parameterType="Order" useGeneratedKeys="true" keyProperty="orderId">
@@ -37,11 +50,16 @@
 
     <select id="findHistory" parameterType="string" resultMap="defaultOrderHistory">
         SELECT o.order_id,o.order_dtm,o.order_status,o.total_price,
-               ol.amount,i.item_id,i.item_name,item_price
+               ol.order_list_id,ol.amount,i.item_id,i.item_name,item_price
         FROM `order` o
         INNER JOIN order_list ol ON o.order_id = ol.order_id
         INNER JOIN item i ON i.item_id = ol.item_id
         WHERE o.session_id = #{sessionId}
+    </select>
+
+    <select id="findDetailHistory" parameterType="int" resultMap="detailOrderHistory">
+        SELECT
+        FROM
     </select>
 
 

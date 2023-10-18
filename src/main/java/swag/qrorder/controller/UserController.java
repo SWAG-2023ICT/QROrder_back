@@ -9,6 +9,7 @@ import swag.qrorder.model.Item;
 import swag.qrorder.model.Restaurant;
 import swag.qrorder.model.Session;
 import swag.qrorder.service.UserService;
+import swag.qrorder.vo.ItemVo;
 import swag.qrorder.vo.OrderVo;
 
 import java.util.List;
@@ -47,6 +48,12 @@ public class UserController {
         if(orders != null) return ResponseEntity.ok(orders);
 
         return ResponseEntity.badRequest().build();
+    }
+
+    @GetMapping("/history/detail")
+    public ResponseEntity<?> findHistoryDetail(@RequestParam int orderListId){
+        List<ItemVo> items = userService.findHistoryDetail(orderListId);
+        return null;
     }
 
 

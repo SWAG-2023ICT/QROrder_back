@@ -60,6 +60,11 @@ public class UserServiceImpl implements UserService {
         return orderMapper.findHistory(sessionId);
     }
 
+    @Override
+    public List<ItemVo> findHistoryDetail(int orderListId) {
+        return null;
+    }
+
     private Session addSession(String restaurantId){
         Session session = sessionMapper.findSession(restaurantId);
         if(session == null){

@@ -15,5 +15,6 @@ public class OrderVo {
     private Date orderDtm;
     private boolean orderStatus;
     private int totalPrice;
+    private int orderListId;
     List<ItemVo> items;
 }
