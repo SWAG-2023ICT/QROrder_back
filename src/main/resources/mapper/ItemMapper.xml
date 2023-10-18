@@ -34,8 +34,8 @@
     <insert id="addItem" parameterType="Item" useGeneratedKeys="true" keyProperty="itemId">
         INSERT INTO item (item_name, item_price, item_description, item_image, item_status, restaurant_id)
         VALUES
-            (#{item.itemName},#{item.itemPrice},#{item.itemDescription},
-                #{item.itemImage},#{item.itemStatus},#{item.restaurantId})
+            (#{itemName},#{itemPrice},#{itemDescription},
+                #{itemImage},#{itemStatus},#{restaurantId})
     </insert>
 
     <update id="updateItem" parameterType="Item">
@@ -67,11 +67,13 @@
     </insert>
 
     <select id="getMenuDetail" parameterType="int" resultMap="menuDetail">
-        SELECT i.item_id,i.item_id,i.item_name,i.item_price,i.item_description,i.item_image,i,item_status,
+        SELECT i.item_id,i.item_id,i.item_name,i.item_price,
+               i.item_description,i.item_image,i.item_status,
             o.option_id,o.option_type,o.option_name,o.option_description,
             ov.option_value_id,ov.name,ov.price
         FROM item i LEFT JOIN `option` o on i.item_id = o.item_id
         LEFT JOIN option_value ov on o.option_id = ov.option_id
+        WHERE i.item_id = #{itemId}
     </select>
 
     <select id="getCategories" resultType="Category">

@@ -13,7 +13,7 @@ public interface ItemService {
     boolean updateItem(Item item);
     boolean updateItemStatus(int itemId);
     boolean deleteItem(int itemId);
-    boolean addItemDetails(int itemId, List<Integer> categoryIds);
+    boolean addItemDetails(int itemId, List<Category> categories);
     boolean addOptions(List<Option> options);
     boolean addOptionValues(List<OptionValue> values);
     List<Category> getCategories();
