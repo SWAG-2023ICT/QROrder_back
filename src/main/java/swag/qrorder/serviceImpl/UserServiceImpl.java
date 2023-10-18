@@ -1,18 +1,19 @@
 package swag.qrorder.serviceImpl;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import swag.qrorder.common.util.RandomCodeUtil;
-import swag.qrorder.mapper.ItemMapper;
-import swag.qrorder.mapper.RestaurantMapper;
-import swag.qrorder.mapper.SeatMapper;
-import swag.qrorder.mapper.SessionMapper;
+import swag.qrorder.mapper.*;
 import swag.qrorder.model.*;
 import swag.qrorder.service.UserService;
+import swag.qrorder.vo.ItemVo;
+import swag.qrorder.vo.OrderVo;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class UserServiceImpl implements UserService {
@@ -20,21 +21,51 @@ public class UserServiceImpl implements UserService {
     private final SeatMapper seatMapper;
     private final SessionMapper sessionMapper;
     private final ItemMapper itemMapper;
+    private final OrderMapper orderMapper;
     private final RandomCodeUtil randomCodeUtil;
 
-    public void addOrder(String qrKey,List<Item> items){
+    public Session addOrder(String qrKey, OrderVo orderVo){
         Seat seat = getSeat(qrKey);
-        String sessionId = addSession(qrKey,seat.getRestaurantId());
-        List<Order> orders = new ArrayList<>();
-        for(Item item : items){
-            orders.add(Order.builder()
-                    .totalPrice(item.getItemPrice())
-                    .seatId(seat.getSeatId())
-                    .sessionId(sessionId)
-                    .build());
+        Session session = addSession(seat.getRestaurantId());
+        Order order = Order.builder()
+                .totalPrice(orderVo.getTotalPrice())
+                .seatId(seat.getSeatId())
+                .sessionId(session.getSessionId())
+                .build();
+        Integer result = orderMapper.addOrder(order);
+        if(result > 0){
+            List<ItemVo> items = orderVo.getItems();
+            List<OrderDetail> orderDetails = new ArrayList<>();
+            for(ItemVo item : items){
+                orderDetails.add(OrderDetail
+                        .builder()
+                        .itemId(item.getItemId())
+                        .orderId(order.getOrderId())
+                        .amount(item.getAmount())
+                        .optionValueId(item.getOptions().get(0).getOptionId())
+                        .build());
+            }
+            result = orderMapper.addOrderList(orderDetails);
+            if(result == orderDetails.size()){
+                if(orderMapper.addSelectedOption(orderDetails) == orderDetails.size())
+                    return session;
+            }
+
         }
+        return null;
     }
-    private String addSession(String qrKey,String restaurantId){
+
+    @Override
+    public List<OrderVo> findHistory(String sessionId) {
+        return orderMapper.findHistory(sessionId);
+    }
+
+    @Override
+    public List<ItemVo> findHistoryDetail(int orderListId) {
+        return orderMapper.findDetailHistory(orderListId);
+    }
+
+    private Session addSession(String restaurantId){
         Session session = sessionMapper.findSession(restaurantId);
         if(session == null){
             session = Session.builder()
@@ -42,8 +73,8 @@ public class UserServiceImpl implements UserService {
                     .restaurantId(restaurantId)
                     .build();
             sessionMapper.addSession(session);
-        }
-        return session.getSessionId();
+        } // else 이전 세션이 만료되었는지 확인.
+        return session;
     }
     private Seat getSeat(String qrKey){
         return seatMapper.findSeatByQr(qrKey);

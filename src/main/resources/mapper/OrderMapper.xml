@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="swag.qrorder.mapper.OrderMapper">
+    <resultMap id="defaultOrderHistory" type="OrderVo">
+        <id property="orderId" column="order_id"/>
+        <result property="orderDtm" column="order_dtm"/>
+        <result property="orderStatus" column="order_status"/>
+        <result property="totalPrice" column="total_price"/>
+        <association property="orderListId" javaType="int">
+            <id property="orderListId" column="order_list_id"/>
+        </association>
+        <collection property="items" ofType="ItemVo">
+            <id property="itemId" column="item_id"/>
+            <result property="itemName" column="item_name"/>
+            <result property="itemPrice" column="item_price"/>
+        </collection>
+    </resultMap>
+
+    <resultMap id="detailOrderHistory" type="ItemVo">
+        <id property="itemId" column="item_id"/>
+        <result property="itemName" column="item_name"/>
+        <result property="itemPrice" column="item_price"/>
+        <collection property="options" ofType="Option">
+            <id property="optionId" column="option_id"/>
+            <result property="optionName" column="option_name"/>
+            <collection property="optionValues" ofType="OptionValue">
+                <id property="optionValueId" column="option_value_id"/>
+                <result property="name" column="name"/>
+                <result property="price" column="price"/>
+            </collection>
+        </collection>
+    </resultMap>
+
+    <insert id="addOrder" parameterType="Order" useGeneratedKeys="true" keyProperty="orderId">
+        INSERT INTO `order` (order_dtm, total_price, seat_id, session_id)
+        VALUE ( now(),#{totalPrice},#{seatId},#{sessionId} )
+    </insert>
+
+    <insert id="addOrderList" parameterType="List" useGeneratedKeys="true" keyProperty="orderListId">
+        INSERT INTO `order_list` (item_id, order_id, amount)
+        VALUES
+        <foreach collection="orderDetails" item="order" separator=",">
+            ( #{order.itemId},#{order.orderId},#{order.amount} )
+        </foreach>
+    </insert>
+
+    <insert id="addSelectedOption" parameterType="List">
+        INSERT INTO `selected_option`
+        VALUES
+        <foreach collection="orderDetails" item="order" separator=",">
+            (#{order.orderListId}, #{order.optionValueId} )
+        </foreach>
+    </insert>
+
+    <select id="findHistory" parameterType="string" resultMap="defaultOrderHistory">
+        SELECT o.order_id,o.order_dtm,o.order_status,o.total_price,
+               ol.order_list_id,ol.amount,i.item_id,i.item_name,item_price
+        FROM `order` o
+        INNER JOIN order_list ol ON o.order_id = ol.order_id
+        INNER JOIN item i ON i.item_id = ol.item_id
+        WHERE o.session_id = #{sessionId}
+    </select>
+
+    <select id="findDetailHistory" parameterType="int" resultMap="detailOrderHistory">
+        SELECT o.option_id,o.option_name,
+               ov.option_value_id,ov.name,ov.price
+        FROM `option` o
+        INNER JOIN option_value ov ON o.option_id = ov.option_id
+        INNER JOIN selected_option so  ON ov.option_value_id = so.option_value_id
+        WHERE so.order_list_id = #{orderListId}
+    </select>
+
+
+</mapper>
