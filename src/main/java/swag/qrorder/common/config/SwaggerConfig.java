@@ -24,10 +24,18 @@ public class SwaggerConfig {
     }
 
     @Bean
-    public GroupedOpenApi bossAPI(){
+    public GroupedOpenApi authAPI(){
         return GroupedOpenApi.builder()
                 .group("auth")
                 .pathsToMatch("/qrorder/auth/**")
+                .build();
+    }
+
+    @Bean
+    public GroupedOpenApi reservationAPI(){
+        return GroupedOpenApi.builder()
+                .group("reservation")
+                .pathsToMatch("/qrorder/reservation/**")
                 .build();
     }
 
