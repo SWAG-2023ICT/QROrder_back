@@ -9,17 +9,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import swag.qrorder.model.Boss;
-import swag.qrorder.model.Restaurant;
 import swag.qrorder.service.ReservationService;
 import swag.qrorder.service.RestaurantService;
 import swag.qrorder.vo.RegisterVO;
 import swag.qrorder.service.AuthService;
 import swag.qrorder.service.JwtService;
-
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.SQLException;
-import java.util.List;
 
 
 @Slf4j
@@ -29,7 +25,6 @@ import java.util.List;
 public class AuthController {
     private final AuthService authService;
     private final RestaurantService restaurantService;
-    private final ReservationService reservationService;
     private final JwtService jwtService;
   
     @PostMapping("/signUp")
@@ -62,11 +57,4 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("로그인에 실패했습니다.");
     }
 
-    @PostMapping("/reservationList")
-    public ResponseEntity<?> getAllReservation(HttpServletRequest request){
-        if(request == null) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("request(토큰)이 null 값입니다.");
-        String restaurantId = (String) request.getAttribute("restaurantId");
-        log.info("{}", restaurantId);
-        return reservationService.getAllReservation(restaurantId);
-    }
 }
