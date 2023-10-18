@@ -75,11 +75,4 @@ public class SwaggerConfig {
                 .pathsToMatch("/qrorder/items/**")
                 .build();
     }
-    @Bean
-    public GroupedOpenApi ownerAPI(){
-        return GroupedOpenApi.builder()
-                .group("owner")
-                .pathsToMatch("/qrorder/owner/**")
-                .build();
-    }
 }
