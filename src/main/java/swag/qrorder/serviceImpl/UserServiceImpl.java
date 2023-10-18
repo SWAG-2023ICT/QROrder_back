@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
                         .itemId(item.getItemId())
                         .orderId(order.getOrderId())
                         .amount(item.getAmount())
-                        .optionValueId(item.getOptionValueId())
+                        .optionValueId(item.getOptions().get(0).getOptionId())
                         .build());
             }
             result = orderMapper.addOrderList(orderDetails);
@@ -62,7 +62,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<ItemVo> findHistoryDetail(int orderListId) {
-        return null;
+        return orderMapper.findDetailHistory(orderListId);
     }
 
     private Session addSession(String restaurantId){
