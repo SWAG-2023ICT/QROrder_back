@@ -28,7 +28,15 @@ public class AuthServiceImpl implements AuthService {
         Boss boss = authMapper.getBossByBossId(signUpBoss);
         if(boss != null) return false;
         signUpBoss.setPassword(passwordEncoder.encode(signUpBoss.getPassword()));
-        boolean result = authMapper.signUp(signUpBoss) > 0;
+        boolean result = authMapper.signUp(signUpBoss);
+        return result;
+    }
+
+    @Override
+    public boolean logout(String userRestaurantId) {
+        String restaurantId = authMapper.getJwtRestaurantId(userRestaurantId);
+        if(restaurantId == null) return false;
+        boolean result = authMapper.logout(userRestaurantId);
         return result;
     }
 

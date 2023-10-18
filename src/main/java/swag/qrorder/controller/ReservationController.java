@@ -3,10 +3,7 @@ package swag.qrorder.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import swag.qrorder.model.Reservation;
 import swag.qrorder.service.ReservationService;
 
@@ -24,4 +21,5 @@ public class ReservationController {
         if(result) return ResponseEntity.status(HttpStatus.CREATED).body("예약 완료되었습니다");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("예약에 실패했습니다.");
     }
+
 }

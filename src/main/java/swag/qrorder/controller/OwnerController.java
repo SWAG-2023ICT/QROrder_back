@@ -27,6 +27,17 @@ public class OwnerController {
         log.info("{}", restaurantId);
         return reservationService.getAllReservation(restaurantId);
     }
+
+
+    @PutMapping("/reservationStatus")
+    public ResponseEntity<?> updateReservationStatus(HttpServletRequest request, Reservation reservation){
+        if(request == null) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("request(토큰)이 null 값입니다.");
+        String restaurantId = (String) request.getAttribute("restaurantId");
+        log.info("{}", restaurantId);
+        boolean result = reservationService.updateReservationStatus(reservation.getReservationId());
+        if(result) return ResponseEntity.status(HttpStatus.OK).body("입장 완료처리했습니다.");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("정상 처리 되지 않았습니다.");
+
     @PostMapping("/{sessionId}")
     public ResponseEntity<?> closeSession(@PathVariable String sessionId){
         boolean flag = ownerService.closeSession(sessionId);
