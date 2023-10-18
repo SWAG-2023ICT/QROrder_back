@@ -15,4 +15,6 @@ public interface OrderMapper {
     Integer addSelectedOption(List<OrderDetail> orderDetails);
     List<OrderVo> findHistory(String sessionId);
     List<ItemVo> findDetailHistory(int orderListId);
+    Integer closeSession(String sessionId);
+    List<OrderVo> findOrders(String restaurantId);
 }
