@@ -2,6 +2,7 @@ package swag.qrorder.vo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
+import swag.qrorder.model.OrderDetail;
 
 import java.util.Date;
 import java.util.List;
@@ -13,10 +14,10 @@ import java.util.List;
 @ToString
 @Getter
 public class OrderVo {
-    private int orderId;
+    private Integer orderId;
     private Date orderDtm;
     private boolean orderStatus;
-    private int totalPrice;
-    private int orderListId;
+    private Integer totalPrice;
+    private OrderDetail orderDetail;
     List<ItemVo> items;
 }

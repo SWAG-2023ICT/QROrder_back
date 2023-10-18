@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import swag.qrorder.model.Boss;
+import swag.qrorder.model.Restaurant;
 import swag.qrorder.service.ReservationService;
 import swag.qrorder.service.RestaurantService;
 import swag.qrorder.vo.RegisterVO;

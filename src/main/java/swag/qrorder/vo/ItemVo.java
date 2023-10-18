@@ -13,9 +13,9 @@ import java.util.List;
 @ToString
 @Getter
 public class ItemVo {
-    private int itemId;
+    private Integer itemId;
     private String itemName;
-    private int itemPrice;
+    private Integer itemPrice;
     private List<Option> options;
-    private int amount;
+    private Integer amount;
 }
