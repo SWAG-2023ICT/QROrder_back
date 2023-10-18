@@ -8,6 +8,10 @@ public interface AuthMapper {
 
     Boss getBossByBossId(Boss boss);
 
-    Integer signUp(Boss boss);
+    boolean signUp(Boss boss);
+
+    boolean logout(String restaurantId);
+
+    String getJwtRestaurantId(String restaurantId);
 
 }

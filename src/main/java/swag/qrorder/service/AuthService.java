@@ -8,4 +8,6 @@ public interface AuthService {
     boolean signIn(Boss boss);
 
     boolean signUp(Boss boss);
+
+    boolean logout(String restaurantId);
 }

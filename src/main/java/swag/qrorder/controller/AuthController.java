@@ -4,16 +4,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import swag.qrorder.model.Boss;
 import swag.qrorder.model.Restaurant;
 import swag.qrorder.service.RestaurantService;
 import swag.qrorder.vo.RegisterVO;
 import swag.qrorder.service.AuthService;
 import swag.qrorder.service.JwtService;
+
 import javax.servlet.http.HttpServletResponse;
 import java.sql.SQLException;
 
@@ -55,6 +53,14 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.OK).body("로그인 성공했습니다.");
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("로그인에 실패했습니다.");
+    }
+
+    @DeleteMapping("/logout")
+    public ResponseEntity<?> logout(Restaurant restaurant){
+        if(restaurant == null) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("레스토랑이 null 입니다.");
+        boolean result = authService.logout(restaurant.getRestaurantId());
+        if(result) return ResponseEntity.status(HttpStatus.OK).body("로그아웃되었습니다.");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("로그아웃에 실패했습니다.");
     }
 
 }

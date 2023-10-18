@@ -4,9 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import swag.qrorder.model.Reservation;
 import swag.qrorder.service.ReservationService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,5 +24,17 @@ public class OwnerController {
         String restaurantId = (String) request.getAttribute("restaurantId");
         log.info("{}", restaurantId);
         return reservationService.getAllReservation(restaurantId);
+    }
+
+
+    @PutMapping("/reservationStatus")
+    public ResponseEntity<?> updateReservationStatus(HttpServletRequest request, Reservation reservation){
+        if(request == null) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("request(토큰)이 null 값입니다.");
+        String restaurantId = (String) request.getAttribute("restaurantId");
+        log.info("{}", restaurantId);
+        boolean result = reservationService.updateReservationStatus(reservation.getReservationId());
+        if(result) return ResponseEntity.status(HttpStatus.OK).body("입장 완료처리했습니다.");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("정상 처리 되지 않았습니다.");
+
     }
 }

@@ -8,8 +8,10 @@ import java.util.List;
 @Mapper
 public interface ReservationMapper {
 
-    List<Reservation> getAllReservation(String RestaurantId );
+    List<Reservation> getAllReservation(String restaurantId );
 
     boolean addReservation(Reservation reservation);
+
+    boolean updateReservationStatus(int reservationId);
 
 }

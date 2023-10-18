@@ -12,6 +12,16 @@
             boss_id = #{bossId}
     </select>
 
+    <select id="getJwtRestaurantId">
+        SELECT
+            *
+        FROM
+            jwt
+        WHERE
+            restaurant_id = #{restaurantId}
+    </select>
+
+
     <insert id="signUp" parameterType="swag.qrorder.model.Boss">
         INSERT INTO
             boss(boss_id, password, name, phone_number)
@@ -19,4 +29,10 @@
             (#{bossId}, #{password}, #{name}, #{phoneNumber})
     </insert>
 
+    <delete id="logout">
+        DELETE FROM
+            jwt
+        WHERE
+            restaurant_id = #{restaurantId}
+    </delete>
 </mapper>

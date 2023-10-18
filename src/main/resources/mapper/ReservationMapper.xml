@@ -24,4 +24,13 @@
             (#{reservationId}, now(), 0, #{customerPhoneNumber}, #{customerCount}, #{restaurantId})
     </insert>
 
+    <update id="updateReservationStatus">
+        UPDATE
+            reservation
+        SET
+            reservation_status = 1
+        WHERE
+            reservation_id = #{reservationId}
+    </update>
+
 </mapper>

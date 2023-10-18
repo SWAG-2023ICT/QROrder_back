@@ -28,5 +28,11 @@ public class ReservationServiceImpl implements ReservationService {
         return result;
     }
 
+    @Override
+    public boolean updateReservationStatus(int reservationId) {
+        boolean result = reservationMapper.updateReservationStatus(reservationId);
+        return result;
+    }
+
 
 }
